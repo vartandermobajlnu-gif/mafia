@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mafia Online: Nightfall</title>
+    <style>
+        body { margin: 0; background: #0d0d13; color: #fff; font-family: sans-serif; text-align: center; }
+        .lobby { max-width: 500px; margin: auto; padding: 20px; }
+        h1 { color: #ff3b30; text-shadow: 0 0 10px rgba(255,59,48,0.5); }
+        .btn { background: #34c759; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 8px; cursor: pointer; margin: 10px; width: 80%; font-weight: bold; }
+        .btn-admin { background: #ff3b30; }
+        .chat { background: #1c1c24; border-radius: 8px; height: 200px; overflow-y: auto; text-align: left; padding: 10px; margin: 15px 0; border: 1px solid #2c2c38; }
+        .vip-name { color: #ffcc00; font-weight: bold; text-shadow: 0 0 5px rgba(255,204,0,0.4); }
+        .admin-name { color: #ff3b30; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="lobby">
+        <h1>🎙️ MAFIA NIGHTFALL</h1>
+        <div>Текущий Ранг: <span id="rank">Кадет (0 MMR)</span></div>
+        <div>Баланс: <span id="coins">0</span> 🪙</div>
+        
+        <div class="chat" id="global-chat">
+            <div><span class="admin-name">👑 Админ:</span> Добро пожаловать в Глобальный чат лобби! Скоро начнется викторина на Вампирский сундук!</div>
+        </div>
+
+        <button class="btn" onclick="openShop()">🛍️ Магазин Шапок и Сундуков</button>
+        <button class="btn" onclick="openInventory()">🎒 Мой Инвентарь и Роли</button>
+        <button class="btn btn-admin" onclick="addBots()">🤖 Добавить ИИ-Ботов</button>
+    </div>
+
+    <script>
+        let mmr = 0, coins = 0;
+        function openShop() { alert("Магазин открыт! СССР: 30 монет, Коты: 60 монет, Якудза: $2.99, Кибер: $1.99, Вампиры (Викторина)"); }
+        function openInventory() { alert("Вкладка Инвентаря: Скины, Шапки, Медали Сезона"); }
+        function addBots() { alert("ИИ-Боты успешно добавлены в лобби матча! (Способности Вампира/Самурая и кулдауны целей на 2 дня активированы)"); }
+    </script>
+</body>
+</html>
