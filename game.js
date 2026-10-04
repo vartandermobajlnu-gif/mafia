@@ -1,4 +1,4 @@
-// База данных игрока на бэкенде лобби
+// База данных игрока
 let user = {
     balance: 0,
     mmr: 0,
@@ -8,29 +8,74 @@ let user = {
     is_admin: true
 };
 
-// Реестр промокодов
+// Список ботов для таблицы лидеров Топ-100
+let leaderboardBots = [
+    { name: "Bot_Ninja 🥷", mmr: 1850 },
+    { name: "Bot_Drakula 🧛‍♂️", mmr: 1420 },
+    { name: "Bot_Yakuza 🎋", mmr: 1100 },
+    { name: "Bot_Alpha 🤖", mmr: 650 },
+    { name: "Bot_Maniac 🔪", mmr: 320 },
+    { name: "Bot_Gamer 🎮", mmr: 150 }
+];
+
 const promoCodes = {
     "USHA_FREE": "hat_ushanka",
     "CYBER_GLITCH": "promo_cyber_glasses",
     "SECRET_CROWN": "promo_fire_crown"
 };
 
-// Обновление цифр на экране телефона
+// Автоматический расчет Текстовых Рангов по MMR
+function calculateRank(mmrPoints) {
+    if (mmrPoints <= 200) return "Кадет";
+    if (mmrPoints <= 500) return "Детектив";
+    if (mmrPoints <= 1000) return "Следователь";
+    if (mmrPoints <= 1800) return "Серый Кардинал";
+    return "Магистр Мафии 👑";
+}
+
 function updateUI() {
+    user.rank = calculateRank(user.mmr);
     if (document.getElementById("coins")) document.getElementById("coins").innerText = user.balance;
     if (document.getElementById("rank")) document.getElementById("rank").innerText = `${user.rank} (${user.mmr} MMR)`;
 }
 
-// Скрытые Админ-команды
+// Отрисовка таблицы Топ-100
+function renderLeaderboard() {
+    let listEl = document.getElementById("leaderboard-list");
+    if (!listEl) return;
+    
+    // Объединяем игрока и ботов в один массив для сортировки
+    let allPlayers = [...leaderboardBots, { name: "Вы (Админ) ⭐", mmr: user.mmr, isReal: true }];
+    allPlayers.sort((a, b) => b.mmr - a.mmr);
+    
+    listEl.innerHTML = "";
+    allPlayers.forEach((p, index) => {
+        let rowClass = p.isReal ? "leader-row player" : "leader-row";
+        let botRank = calculateRank(p.mmr);
+        listEl.innerHTML += `
+            <div class="${rowClass}">
+                <div>${index + 1}. ${p.name} [${botRank}]</div>
+                <div style="color:#5ac8fa; font-weight:bold;">${p.mmr} MMR</div>
+            </div>
+        `;
+    });
+}
+
 function sendAdminCommand(commandText) {
     if (commandText === "/give_money_999") {
         user.balance += 999;
         return "💰 Код активирован: +999 монет на баланс!";
     }
+    // Секретная админ-команда сброса сезона для тестов
+    if (commandText === "/reset_season") {
+        user.mmr = Math.round(user.mmr * 0.6); // Мягкий сброс на 40%
+        leaderboardBots.forEach(b => b.mmr = Math.round(b.mmr * 0.6));
+        renderLeaderboard();
+        return "🏆 Сезон перезапущен! Рейтинг всех игроков уменьшен на 40%. Выданы медали за ранг!";
+    }
     return "❌ Неизвестная админ-команда.";
 }
 
-// Система промокодов
 function activatePromo(code) {
     let cleanCode = code.trim().toUpperCase();
     if (!promoCodes[cleanCode]) return "❌ Неверный промокод!";
@@ -40,12 +85,10 @@ function activatePromo(code) {
     return `🎉 Успешно! Получен предмет: ${item}`;
 }
 
-// Открытие инвентаря через alert
 function openInventory() {
     alert(`🎒 ИНВЕНТАРЬ\n\nСкины и роли: ${user.owned_skins.join(', ')}\nШапки: ${user.owned_hats.length ? user.owned_hats.join(', ') : 'Пусто'}`);
 }
 
-// Математика сундуков с точными шансами 5% на Самурая и Вампира
 function buyChest(type, price, currencyType) {
     let chat = document.getElementById("global-chat");
     if (currencyType === 'coins' && user.balance < price) {
@@ -67,14 +110,14 @@ function buyChest(type, price, currencyType) {
     } else if (type === 'cyber') {
         dropRole = (Math.random() > 0.5) ? "Андроид (Мирный)" : "Кибер-Страж (Бессмертный)";
     } else if (type === 'yakuza') {
-        if (random <= 5) dropRole = "SAMURAI (Донат-Роль)"; // Строго 5%
+        if (random <= 5) dropRole = "SAMURAI (Донат-Роль)";
         else {
             let yakRoles = ["Оябун (Дон)", "Кёдзи (Мафия)", "Гейша (Путана)"];
             dropRole = yakRoles[Math.floor(Math.random() * yakRoles.length)];
         }
     } else if (type === 'vampire') {
-        if (random <= 5) dropRole = "VAMPIRE (Донат-Роль)"; // Строго 5%
-        else if (random > 5 && random <= 10) dropRole = "Владыка Дракулы (Скин Дона)"; // Строго 5%
+        if (random <= 5) dropRole = "VAMPIRE (Донат-Роль)";
+        else if (random > 5 && random <= 10) dropRole = "Владыка Дракулы (Скин Дона)";
         else {
             let vampRoles = ["Кармилла (Путана)", "Ван Хельсинг", "Чумной Врач", "Вервольф"];
             dropRole = vampRoles[Math.floor(Math.random() * vampRoles.length)];
@@ -92,7 +135,6 @@ function buyChest(type, price, currencyType) {
     chat.scrollTop = chat.scrollHeight;
 }
 
-// Автономная симуляция матча ботами в чате лобби
 function addBots() {
     let chat = document.getElementById("global-chat");
     chat.innerHTML = "";
@@ -116,7 +158,7 @@ function addBots() {
     }, 2000);
 
     setTimeout(() => {
-        chat.innerHTML += `<div><span style="color:#007aff; font-weight:bold;">🤖 Bot_Gamer:</span> [УКУШЕН] Мафия — это Bot_Yakuza, я проверил! (Сообщение отправлено Вампиром)</div>`;
+        chat.innerHTML += `<div><span style="color:#007aff; font-weight:bold;">🤖 Bot_Gamer:</span> [УКУШЕН] Мафия — это Bot_Yakuza, я проверил!</div>`;
         chat.scrollTop = chat.scrollHeight;
     }, 7000);
 
@@ -125,10 +167,17 @@ function addBots() {
         chat.innerHTML += `<div><span style="color:#34c759">⚙️ Система:</span> Большинство проголосовало против Bot_Yakuza.</div>`;
         chat.innerHTML += `<div><span style="color:#ff9500">💀 Итог:</span> Bot_Yakuza оказался МАФИЕЙ. Мирные победили!</div>`;
         
+        // Ранговые очки Игры
         user.mmr += 15;
         user.balance += 10;
-        if (user.mmr > 200) user.rank = "Детектив";
+        
+        // Симулируем, что другие боты тоже сыграли и получили случайные очки
+        leaderboardBots.forEach(b => b.mmr += Math.floor(Math.random() * 30) - 10);
+        
         updateUI();
+        if (document.getElementById("leaderboard-box") && document.getElementById("leaderboard-box").style.display === "block") {
+            renderLeaderboard();
+        }
         
         chat.innerHTML += `<div class="system-msg">🏆 ПОБЕДА! Начислено: +15 MMR, +10 монет 🪙</div>`;
         chat.scrollTop = chat.scrollHeight;
