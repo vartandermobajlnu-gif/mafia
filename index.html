@@ -10,7 +10,7 @@
         h1 { color: #ff3b30; text-shadow: 0 0 10px rgba(255,59,48,0.5); font-size: 28px; margin-bottom: 20px; }
         .stats { font-size: 16px; margin-bottom: 15px; color: #a0a0b0; }
         .stats span { color: #fff; font-weight: bold; }
-        .btn { background: #34c759; color: white; border: none; padding: 14px 25px; font-size: 16px; border-radius: 12px; cursor: pointer; margin: 8px 0; width: 100%; font-weight: bold; transition: 0.2s; }
+        .btn { background: #34c759; color: white; border: none; padding: 14px 25px; font-size: 16px; border-radius: 12px; cursor: pointer; margin: 8px 0; width: 100%; font-weight: bold; }
         .btn-admin { background: #ff3b30; }
         .chat { background: #14141c; border-radius: 12px; height: 220px; overflow-y: auto; text-align: left; padding: 12px; margin: 15px 0; border: 1px solid #232330; font-size: 14px; }
         .admin-name { color: #ff3b30; font-weight: bold; }
@@ -18,7 +18,7 @@
         .system-msg { color: #ff9500; font-weight: bold; font-size: 13px; margin: 5px 0; text-align: center; background: rgba(255,149,0,0.1); padding: 4px; border-radius: 6px; }
         .input-group { display: flex; gap: 8px; margin: 10px 0; }
         .input-field { flex: 1; background: #1c1c24; border: 1px solid #2c2c38; border-radius: 8px; padding: 10px; color: white; font-size: 14px; }
-        .btn-sm { width: auto; padding: 10px 15px; margin: 0; font-size: 14px; background: #5856d6; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; }
+        .btn-sm { width: auto; padding: 10px 15px; background: #5856d6; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; }
         .shop-container { display: none; background: #14141c; border: 1px solid #232330; border-radius: 12px; padding: 15px; margin: 15px 0; text-align: left; }
         .shop-title { font-weight: bold; color: #ffcc00; margin-bottom: 10px; border-bottom: 1px solid #232330; padding-bottom: 5px; }
         .chest-item { display: flex; justify-content: space-between; align-items: center; background: #1c1c24; padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #2c2c38; }
@@ -26,9 +26,9 @@
         .chest-price { color: #ffcc00; font-size: 13px; font-weight: bold; }
         .btn-buy { background: #ffcc00; color: #0d0d13; border: none; padding: 6px 12px; font-size: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
         .drop-card { background: linear-gradient(135deg, #1e1e2f 0%, #0f0f1a 100%); border: 2px solid #ffcc00; border-radius: 12px; padding: 12px; margin: 10px 0; text-align: center; box-shadow: 0 0 15px rgba(255,204,0,0.3); }
-        .drop-title { font-size: 12px; color: #a0a0b0; text-transform: uppercase; letter-spacing: 1px; }
-        .drop-role { font-size: 20px; font-weight: bold; color: #fff; margin: 8px 0; text-shadow: 0 0 8px rgba(255,255,255,0.4); }
-        .gold-badge { background: #ffcc00; color: #0d0d13; font-weight: bold; padding: 4px 15px; border-radius: 4px; display: inline-block; font-size: 12px; letter-spacing: 1px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); text-transform: uppercase; }
+        .drop-title { font-size: 12px; color: #a0a0b0; }
+        .drop-role { font-size: 20px; font-weight: bold; color: #fff; margin: 8px 0; }
+        .gold-badge { background: #ffcc00; color: #0d0d13; font-weight: bold; padding: 4px 15px; border-radius: 4px; display: inline-block; font-size: 12px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -38,7 +38,7 @@
         <div class="stats">Баланс: <span id="coins">0</span> 🪙</div>
         
         <div class="chat" id="global-chat">
-            <div><span class="admin-name">👑 Админ:</span> Добро пожаловать в Глобальный чат лобби! Скоро начнется викторина на Вампирский сундук!</div>
+            <div><span class="admin-name">👑 Админ:</span> Добро пожаловать в Глобальный чат лобби!</div>
         </div>
 
         <div class="input-group">
@@ -48,41 +48,11 @@
 
         <div id="chest-shop" class="shop-container">
             <div class="shop-title">📦 МАГАЗИН СУНДУКОВ И ДОНАТА</div>
-            <div class="chest-item">
-                <div>
-                    <div class="chest-name">🟥 Сундук «СССР»</div>
-                    <div class="chest-price">30 Монет 🪙</div>
-                </div>
-                <button class="btn-buy" onclick="buyChest('ussr', 30, 'coins')">Открыть</button>
-            </div>
-            <div class="chest-item">
-                <div>
-                    <div class="chest-name">🐾 Сундук «Кошачий Синдикат»</div>
-                    <div class="chest-price">60 Монет 🪙</div>
-                </div>
-                <button class="btn-buy" onclick="buyChest('cats', 60, 'coins')">Открыть</button>
-            </div>
-            <div class="chest-item">
-                <div>
-                    <div class="chest-name">🤖 Кибер-Сундук</div>
-                    <div class="chest-price">Донат $1.99 💎</div>
-                </div>
-                <button class="btn-buy" onclick="buyChest('cyber', 1.99, 'donate')">Купить</button>
-            </div>
-            <div class="chest-item">
-                <div>
-                    <div class="chest-name">🎋 Сундук Самурая «Якудза»</div>
-                    <div class="chest-price">Донат $2.99 💎</div>
-                </div>
-                <button class="btn-buy" onclick="buyChest('yakuza', 2.99, 'donate')">Купить</button>
-            </div>
-            <div class="chest-item">
-                <div>
-                    <div class="chest-name">🧛‍♂️ Сундук «Вампиры»</div>
-                    <div class="chest-price">Эксклюзив викторин 🏆</div>
-                </div>
-                <button class="btn-buy" style="background:#5856d6; color:white;" onclick="buyChest('vampire', 0, 'quiz')">Тест Дропа</button>
-            </div>
+            <div class="chest-item"><div><div class="chest-name">🟥 Сундук «СССР»</div><div class="chest-price">30 Монет</div></div><button class="btn-buy" onclick="buyChest('ussr', 30, 'coins')">Открыть</button></div>
+            <div class="chest-item"><div><div class="chest-name">🐾 Сундук «Кошачий Синдикат»</div><div class="chest-price">60 Монет</div></div><button class="btn-buy" onclick="buyChest('cats', 60, 'coins')">Открыть</button></div>
+            <div class="chest-item"><div><div class="chest-name">🤖 Кибер-Сундук</div><div class="chest-price">Донат \$1.99</div></div><button class="btn-buy" onclick="buyChest('cyber', 1.99, 'donate')">Купить</button></div>
+            <div class="chest-item"><div><div class="chest-name">🎋 Сундук «Якудза»</div><div class="chest-price">Донат \$2.99</div></div><button class="btn-buy" onclick="buyChest('yakuza', 2.99, 'donate')">Купить</button></div>
+            <div class="chest-item"><div><div class="chest-name">🧛‍♂️ Сундук «Вампиры»</div><div class="chest-price">Викторина</div></div><button class="btn-buy" style="background:#5856d6; color:white;" onclick="buyChest('vampire', 0, 'quiz')">Тест Дропа</button></div>
         </div>
 
         <button class="btn" style="background:#ff9500;" onclick="toggleShop()">🛍️ Открыть/Закрыть Магазин</button>
@@ -93,12 +63,10 @@
     <script src="game.js"></script>
     <script>
         if (typeof user !== 'undefined') { updateUI(); }
-
         function toggleShop() {
             let shop = document.getElementById("chest-shop");
             shop.style.display = (shop.style.display === "block") ? "none" : "block";
         }
-
         function handleInput() {
             let inputEl = document.getElementById("promo-input");
             let val = inputEl.value.trim();
@@ -115,59 +83,6 @@
             chat.scrollTop = chat.scrollHeight;
             updateUI();
         }
-
-        function buyChest(type, price, currencyType) {
-            let chat = document.getElementById("global-chat");
-            if (currencyType === 'coins' && user.balance < price) {
-                chat.innerHTML += `<div><span style="color:#ff3b30">❌ Ошибка:</span> Недостаточно монет для открытия сундука!</div>`;
-                return;
-            }
-            if (currencyType === 'coins') { user.balance -= price; }
-            updateUI();
-
-            let dropRole = "";
-            let random = Math.random() * 100;
-
-            if (type === 'ussr') {
-                let ussrRoles = ["DON (Генерал КГБ)", "SHERIFF (Следователь МУРа)", "DOCTOR (Военврач)", "CIVILIAN (Житель)", "MAFIA", "PUTANA", "MANIAC", "IMMORTAL", "BODYGUARD", "TRACKER"];
-                dropRole = ussrRoles[Math.floor(Math.random() * ussrRoles.length)];
-            } else if (type === 'cats') {
-                let catRoles = ["DON (Кот-Мейнкун)", "MANIAC (Кот-Мясник)", "MAFIA (Кот в Смокинге)", "SHERIFF (Кот-Детектив)", "DOCTOR (Кот с Валерьянкой)"];
-                dropRole = catRoles[Math.floor(Math.random() * catRoles.length)];
-            } else if (type === 'cyber') {
-                dropRole = (Math.random() > 0.5) ? "CIVILIAN (Андроид)" : "IMMORTAL (Кибер-Страж)";
-            } else if (type === 'yakuza') {
-                if (random <= 5) { dropRole = "SAMURAI (Донат-Роль)"; }
-                else {
-                    let yakRoles = ["DON (Оябун)", "MAFIA (Кёдзи)", "PUTANA (Гейша)"];
-                    dropRole = yakRoles[Math.floor(Math.random() * yakRoles.length)];
-                }
-            } else if (type === 'vampire') {
-                if (random <= 5) { dropRole = "VAMPIRE (Донат-Роль)"; }
-                else if (random > 5 && random <= 10) { dropRole = "DON (Владыка Дракулы)"; }
-                else {
-                    let vampRoles = ["PUTANA (Кармилла)", "HUNTER (Ван Хельсинг)", "DOCTOR (Чумной Врач)", "GUARDIAN (Вервольф)"];
-                    dropRole = vampRoles[Math.floor(Math.random() * vampRoles.length)];
-                }
-            }
-
-            user.owned_skins.push(dropRole);
-
-            chat.innerHTML += `
-                <div class="drop-card">
-                    <div class="drop-title">✨ ИЗ СУНДУКА ВЫПАЛА КАРТА ✨</div>
-                    <div class="drop-role">📷 Поясной Портрет Profile</div>
-                    <div class="gold-badge">${dropRole}</div>
-                </div>
-            `;
-            chat.scrollTop = chat.scrollHeight;
-        }
-
-        function openInventory() { alert(`Ваш инвентарь:\nСкины и роли: ${user.owned_skins.join(', ')}\nШапки: ${user.owned_hats.join(', ')}`); }
-        
-        function addBots() { 
-            let chat = document.getElementById("global-chat");
-            chat.innerHTML = "";
-
-
-        
+    </script>
+</body>
+</html>
